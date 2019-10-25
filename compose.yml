@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  app:
+    image: unifi:latest
+    volumes:
+      - data:/UniFi/data
+    networks:
+      - proxy
+    ports:
+      - 3478:3478/udp
+    deploy:
+      placement:
+        constraints: [node.hostname == osl108pve]
+      labels:
+        - traefik.http.services.unifi_inform.loadbalancer.server.port=80
+        - traefik.http.routers.unifi_inform.rule=Host("unifi.openit.com")
+        - traefik.http.routers.unifi_inform.entrypoints=web
+#        - traefik.tcp.routers.unifi_gui.rule=HostSNI("unifi.openit.com")
+#        - traefik.tcp.routers.unifi_gui.entrypoints=web-secure
+#        - traefik.tcp.routers.unifi_gui.tls.passthrough=true
+#        - traefik.tcp.services.unifi_gui.loadbalancer.server.port=443
+networks:
+  proxy:
+    external: true
+
+volumes:
+  data:
+    driver: cephfs
+    driver_opts:
+      monitors: osl105pve,osl106pve,osl107pve
+      name: admin
+      path: /container/unifi_data
+      secret: AQC81Jhb5El+NxAAtKabWkQ5x5iy0n97A0lWnw==

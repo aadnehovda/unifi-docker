@@ -1,0 +1,4 @@
+[mongodb]
+name=MongoDB
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.2/$basearch/
+gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc
