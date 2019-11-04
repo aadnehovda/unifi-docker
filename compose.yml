@@ -2,11 +2,17 @@ version: '3.7'
 
 services:
   app:
-    image: ahovda/unifi:5.11.50
+    image: ahovda/unifi:$UNIFI_VERSION
+    build:
+      context: .
+      args:
+        version: $UNIFI_VERSION
     volumes:
       - data:/UniFi/data
     networks:
       - proxy
+    environment:
+      UNIFI_VERSION:
     ports:
       - 3478:3478/udp
     deploy:
@@ -22,11 +28,10 @@ networks:
   proxy:
     external: true
 
+environment:
+  UNIFI_VERSION: 5.12.22
+
 volumes:
   data:
-    driver: cephfs
-    driver_opts:
-      monitors: osl105pve,osl106pve,osl107pve
-      name: admin
-      path: /container/unifi_data
-      secret: AQC81Jhb5El+NxAAtKabWkQ5x5iy0n97A0lWnw==
+    external: true
+      name: unifi_data
