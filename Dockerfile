@@ -1,7 +1,7 @@
 FROM centos:8 AS downloader
 RUN yum install -y unzip
 
-ARG version 5.12.22
+ARG version=5.12.66
 
 ADD https://www.ubnt.com/downloads/unifi/$version/UniFi.unix.zip .
 RUN unzip UniFi.unix.zip
