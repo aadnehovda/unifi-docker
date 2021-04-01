@@ -12,18 +12,15 @@ services:
     networks:
       - proxy
     environment:
-      UNIFI_VERSION: 5.12.66
+      UNIFI_VERSION: 6.1.71
+      INFORM_URL: unifi.domain.com
     ports:
       - 3478:3478/udp
     deploy:
       labels:
         - traefik.http.services.unifi_inform.loadbalancer.server.port=80
-        - traefik.http.routers.unifi_inform.rule=Host("unifi.openit.com")
+        - traefik.http.routers.unifi_inform.rule=Host("${INFORM_URL}")
         - traefik.http.routers.unifi_inform.entrypoints=web
-#        - traefik.tcp.routers.unifi_gui.rule=HostSNI("unifi.openit.com")
-#        - traefik.tcp.routers.unifi_gui.entrypoints=web-secure
-#        - traefik.tcp.routers.unifi_gui.tls.passthrough=true
-#        - traefik.tcp.services.unifi_gui.loadbalancer.server.port=443
 networks:
   proxy:
     external: true
